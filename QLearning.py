@@ -9,6 +9,7 @@ class QL:
         self.gamma = gamma
         self.alpha = alpha
         self.QTable = pd.DataFrame(columns = self.actionSpace, dtype = np.float)
+        self.R = 0
         # self.Qtable = None
         # self.state = None
         # self.SList = []
@@ -18,15 +19,11 @@ class QL:
         """ reward function, which should be get value from the in surroundings."""
         return reward
 
-    def updateValueQtable(self,state):
-        pass
-        # if not self.stateExist(state):
-        #     self.QTable = self.QTable.append(pd.Series(
-        #             [0]*len(self.actionSpace),
-        #             index=self.QTable.columns,
-        #             name=state,
-        #         )
-        #     )
+    def updateValueQtable(self, cur_state, action, next_state, Next_action):
+        self.QTable.loc[cur_state, action] += self.alpha * (
+                                            self.R + \
+                                            self.gamma * self.QTable.loc[next_state, Next_action] - \
+                                            self.QTable.loc[cur_state, action])
 
     def stateExist(self,state):
         """check the state if it already exits in the Q Table."""
@@ -34,9 +31,6 @@ class QL:
             return True
         else:
             return False
-
-    def takeAction(self, env):
-        pass
 
     def epsilonGreedy(self, state):
         """epsilon greedy algorithm."""
@@ -48,11 +42,17 @@ class QL:
 
     def BestPolicy(self, state):
         """ take an action into the environment"""
+        if self.QTable.shape[0] == 0:
+            return np.random.choice(self.actionSpace)
         actions = self.QTable.loc[state, :]
-        # actions.
+        actions = actions.reindex(np.random.permutation(actions.index))
+        return actions.idxmax()
 
     def acquireState(self, state):
         """acquire state from environment."""
+        pass
+
+    def takeAction(self, env):
         pass
 
 
