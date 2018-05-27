@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import random as rd
 
 class QL:
     def __init__(self, actionSpace, epsilon, gamma, alpha):
@@ -38,13 +39,21 @@ class QL:
                 )
             )
 
-    def epsilonGreedy(self):
-        """epsilon greedy algorithm."""
+    def takeAction(self, env):
         pass
 
-    def action(self, env):
+    def epsilonGreedy(self, state):
+        """epsilon greedy algorithm."""
+        if rd.random() < self.epsilon:
+            action = self.BestPolicy(state)
+        else:
+            action = np.random.choice(self.actionSpace)
+        return action
+
+    def BestPolicy(self, state):
         """ take an action into the environment"""
-        pass
+        actions = self.QTable.loc[state, :]
+        # actions.
 
     def acquireState(self, state):
         """acquire state from environment."""
