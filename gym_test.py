@@ -12,4 +12,4 @@ for i_episode in range(2):
         if done:
             print("Episode finished after {} timesteps".format(t+1))
             break
-        time.sleep(3)
+        # time.sleep(3)

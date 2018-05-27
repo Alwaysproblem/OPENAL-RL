@@ -29,7 +29,7 @@ class QL:
         pass
 
     def action(self, env):
-        """ take an action into the envirnment"""
+        """take an action into the envirnment."""
         pass
 
     def acquireState(self, state):
