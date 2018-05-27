@@ -17,13 +17,15 @@ class QL:
 
     def reward(self,reward):
         """ reward function, which should be get value from the in surroundings."""
-        return reward
+        self.R = reward
+        return self.R
 
     def updateValueQtable(self, cur_state, action, next_state, Next_action):
         self.QTable.loc[cur_state, action] += self.alpha * (
                                             self.R + \
                                             self.gamma * self.QTable.loc[next_state, Next_action] - \
-                                            self.QTable.loc[cur_state, action])
+                                            self.QTable.loc[cur_state, action]
+                                        )
 
     def stateExist(self,state):
         """check the state if it already exits in the Q Table."""
@@ -31,6 +33,16 @@ class QL:
             return True
         else:
             return False
+
+    def extendQtable(self,state):
+        if not self.stateExist(state):
+            self.QTable = self.QTable.append(
+                pd.Series(
+                    [0]*len(self.actionSpace),
+                    index = self.QTable.columns,
+                    name = state,
+                )
+            )
 
     def epsilonGreedy(self, state):
         """epsilon greedy algorithm."""
@@ -47,6 +59,9 @@ class QL:
         actions = self.QTable.loc[state, :]
         actions = actions.reindex(np.random.permutation(actions.index))
         return actions.idxmax()
+
+    def learning(self):
+        pass
 
     def acquireState(self, state):
         """acquire state from environment."""
