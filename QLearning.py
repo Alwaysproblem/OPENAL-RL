@@ -13,9 +13,9 @@ class QL:
         # self.SList = []
         # self.policyList = []
 
-    def reward(self):
+    def reward(self,reward):
         """ reward function, which should be get value from the in surroundings."""
-        pass
+        return reward
 
     def updateValueQtable(self):
         pass
@@ -29,9 +29,9 @@ class QL:
         pass
 
     def action(self, env):
-        """take an action into the envirnment."""
+        """ take an action into the environment"""
         pass
 
     def acquireState(self, state):
-        """acquire state from enviornment."""
+        """acquire state from environment."""
         pass
