@@ -77,7 +77,7 @@ class QL:
 
 
 if __name__ == "__main__":
-    Q = QL(['u', 'd', 'l', 'r'], 0.9, 0.99, 0.5)
+    Q = QL(['u', 'd', 'l', 'r'], 0.9, 0.9, 0.5)
     # print(Q.BestPolicy(str([1, 2, 3, 4])))
 
     Q.extendQtable(str([1, 2, 3, 4]))

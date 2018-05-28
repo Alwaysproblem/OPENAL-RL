@@ -5,10 +5,10 @@ import matplotlib.pyplot as plt
 
 def main():
     env = gym.make('CartPole-v0')
-    q = QL([str(i) for i in range(env.action_space.n)], 0.95, 0.99, 0.6)
+    q = QL([str(i) for i in range(env.action_space.n)], 0.95, 1.5, 0.9)
     plt.figure()
 
-    for i_episode in range(100000):
+    for i_episode in range(20000):
         observation = env.reset()
         observation = [round(i,1) for i in observation]
         # q.extendQtable(str(observation))
@@ -31,7 +31,7 @@ def main():
             observation = observation_
             t += 1
             if done:
-                print("Episode finished after {} timesteps".format(t+1))
+                # print("Episode finished after {} timesteps".format(t+1))
                 plt.plot(i_episode, t+1, 'g-*')
                 break
     plt.show()
