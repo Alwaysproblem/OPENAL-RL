@@ -4,12 +4,17 @@ import random as rd
 
 class QL:
     def __init__(self, actionSpace, epsilon, gamma, alpha):
+        """
+        please when using the learn function,
+        don't forget initialize the state.
+        """
         self.actionSpace = actionSpace
         self.epsilon = epsilon
         self.gamma = gamma
         self.alpha = alpha
         self.QTable = pd.DataFrame(columns = self.actionSpace, dtype = np.float)
         self.R = 0
+        self.observation = None
         # self.Qtable = None
         # self.state = None
         # self.SList = []
@@ -63,10 +68,32 @@ class QL:
         actions = actions.reindex(np.random.permutation(actions.index))
         return actions.idxmax()
 
-    # def learning(self, cur_state, action, next_state, Next_action, reward):
-    #     self.extendQtable(cur_state)
-    #     self.extendQtable(next_state)
-    #     self.updateValueQtable(cur_state, action, next_state, Next_action, reward)
+    def initial_State(self, init_S):
+        self.observation = init_S
+
+    def learning(self, rewardfun = False, env_step = None):
+        
+        if self.observation == None:
+            print("you should be intialize the self.state")
+            return
+        
+        action = self.epsilonGreedy(str(self.observation))
+
+        try:
+            observation_, reward, done = env_step(int(action))
+        except TypeError:
+            print("there is no env.step(action).")
+
+        if rewardfun is True:
+            reward = self.reward(observation_)
+
+        action_ = self.epsilonGreedy(str(observation_))
+
+        self.updateValueQtable(str(self.observation), action, str(observation_), action_, reward)
+
+        self.observation = observation_
+
+        return done
 
     def acquireState(self, state):
         """acquire state from environment."""
